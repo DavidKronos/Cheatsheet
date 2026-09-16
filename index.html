@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JS · HTML · CSS · Git — Interview Cheat Sheet</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ─── HEADER ─────────────────────────────────── -->
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <span>JS</span><span> · </span><span>HTML</span><span> · </span><span>CSS</span><span> · </span><span>Git</span>
+    </div>
+    <nav class="nav-tabs">
+      <button class="tab-btn active" data-tab="js"><span class="dot dot-js"></span>JavaScript</button>
+      <button class="tab-btn" data-tab="html"><span class="dot dot-html"></span>HTML</button>
+      <button class="tab-btn" data-tab="css"><span class="dot dot-css"></span>CSS</button>
+      <button class="tab-btn" data-tab="git"><span class="dot dot-git"></span>Git</button>
+      <button class="tab-btn" data-tab="lastminute"><span class="dot dot-star"></span>⚡ 30-Min Revision</button>
+    </nav>
+    <div class="spacer"></div>
+    <div class="revision-badge">⭐ = Must Know</div>
+  </div>
+</header>
+
+<div class="layout">
+
+<!-- ─── SIDEBAR ────────────────────────────────── -->
+<aside id="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-label">JavaScript</div>
+    <a class="sidebar-link" href="#js-types">Types & Coercion</a>
+    <a class="sidebar-link" href="#js-scope">Scope & Closures</a>
+    <a class="sidebar-link" href="#js-proto">Prototype & OOP</a>
+    <a class="sidebar-link" href="#js-async">Async & Event Loop</a>
+    <a class="sidebar-link" href="#js-es6">ES6+ Features</a>
+    <a class="sidebar-link" href="#js-qa">Interview Q&A</a>
+    <a class="sidebar-link" href="#js-scenarios">Scenarios</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">HTML</div>
+    <a class="sidebar-link" href="#html-semantics">Semantics</a>
+    <a class="sidebar-link" href="#html-forms">Forms & Inputs</a>
+    <a class="sidebar-link" href="#html-meta">Meta & SEO</a>
+    <a class="sidebar-link" href="#html-qa">Interview Q&A</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">CSS</div>
+    <a class="sidebar-link" href="#css-box">Box Model</a>
+    <a class="sidebar-link" href="#css-specificity">Specificity</a>
+    <a class="sidebar-link" href="#css-flex">Flexbox</a>
+    <a class="sidebar-link" href="#css-grid">Grid</a>
+    <a class="sidebar-link" href="#css-qa">Interview Q&A</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Git</div>
+    <a class="sidebar-link" href="#git-core">Core Commands</a>
+    <a class="sidebar-link" href="#git-branch">Branching</a>
+    <a class="sidebar-link" href="#git-undo">Undo & Reset</a>
+    <a class="sidebar-link" href="#git-flow">Git Workflows</a>
+    <a class="sidebar-link" href="#git-qa">Interview Q&A</a>
+  </div>
+</aside>
+
+<!-- ─── MAIN ───────────────────────────────────── -->
+<main>
+
+<!-- ═══════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════ -->
+<div id="tab-js" class="tab-pane active">
+
+  <!-- TYPES -->
+  <div class="section" id="js-types">
+    <div class="section-header">
+      <div class="section-icon icon-js">JS</div>
+      <div>
+        <div class="section-title">Types & Coercion</div>
+        <div class="section-subtitle">Primitives, type checking, equality traps</div>
+      </div>
+    </div>
+
+    <div class="card must-know">
+      <h4>Primitive Types (7)</h4>
+      <div class="pill-row">
+        <span class="pill pill-js">string</span>
+        <span class="pill pill-js">number</span>
+        <span class="pill pill-js">bigint</span>
+        <span class="pill pill-js">boolean</span>
+        <span class="pill pill-js">undefined</span>
+        <span class="pill pill-js">null</span>
+        <span class="pill pill-js">symbol</span>
+      </div>
+      <p>Everything else is an <strong>Object</strong> (arrays, functions, dates). Functions are also objects — they just have a [[Call]] internal method.</p>
+    </div>
+
+    <div class="card-grid">
+      <div class="card must-know">
+        <h4>== vs ===</h4>
+        <pre><code><span class="cmt">// == performs type coercion</span>
+<span class="num">0</span> <span class="kw">==</span> <span class="str">''</span>        <span class="cmt">// true  ⚠️</span>
+<span class="num">0</span> <span class="kw">==</span> <span class="bool">false</span>    <span class="cmt">// true  ⚠️</span>
+<span class="bool">null</span> <span class="kw">==</span> <span class="bool">undefined</span> <span class="cmt">// true ⚠️</span>
+<span class="str">''</span> <span class="kw">==</span> <span class="bool">false</span>   <span class="cmt">// true  ⚠️</span>
+
+<span class="cmt">// === checks type AND value</span>
+<span class="num">0</span> <span class="kw">===</span> <span class="str">''</span>       <span class="cmt">// false ✅</span>
+<span class="bool">null</span> <span class="kw">===</span> <span class="bool">undefined</span> <span class="cmt">// false ✅</span></code></pre>
+      </div>
+
+      <div class="card">
+        <h4>typeof Gotchas</h4>
+        <pre><code><span class="fn">typeof</span> <span class="bool">null</span>        <span class="cmt">// "object" ⚠️ bug!</span>
+<span class="fn">typeof</span> []           <span class="cmt">// "object"</span>
+<span class="fn">typeof</span> <span class="fn">function</span>(){} <span class="cmt">// "function"</span>
+<span class="fn">typeof</span> <span class="bool">undefined</span>    <span class="cmt">// "undefined"</span>
+<span class="fn">typeof</span> <span class="cls">Symbol</span>()     <span class="cmt">// "symbol"</span>
+
+<span class="cmt">// Better: use Object.prototype.toString</span>
+<span class="cls">Object</span>.prototype.toString.<span class="fn">call</span>([])
+<span class="cmt">// "[object Array]"</span></code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>Falsy Values — memorize all 8</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Value</th><th>Type</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td>false</td><td>Boolean</td><td>The only false boolean</td></tr>
+            <tr><td>0, -0, 0n</td><td>Number / BigInt</td><td>Zero in all numeric types</td></tr>
+            <tr><td>""</td><td>String</td><td>Empty string only</td></tr>
+            <tr><td>null</td><td>Null</td><td>Intentional absence</td></tr>
+            <tr><td>undefined</td><td>Undefined</td><td>Uninitialized variable</td></tr>
+            <tr><td>NaN</td><td>Number</td><td>Not a Number — check with isNaN()</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCOPE & CLOSURES -->
+  <div class="section" id="js-scope">
+    <div class="section-header">
+      <div class="section-icon icon-js">JS</div>
+      <div>
+        <div class="section-title">Scope & Closures</div>
+        <div class="section-subtitle">var/let/const, hoisting, the closure pattern</div>
+      </div>
+    </div>
+
+    <div class="card must-know">
+      <h4>var vs let vs const</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Property</th><th>var</th><th>let</th><th>const</th></tr></thead>
+          <tbody>
+            <tr><td>Scope</td><td>Function</td><td>Block</td><td>Block</td></tr>
+            <tr><td>Hoisted</td><td>Yes (= undefined)</td><td>Yes (TDZ error)</td><td>Yes (TDZ error)</td></tr>
+            <tr><td>Re-declare</td><td>✅ Yes</td><td>❌ No</td><td>❌ No</td></tr>
+            <tr><td>Re-assign</td><td>✅ Yes</td><td>✅ Yes</td><td>❌ No</td></tr>
+            <tr><td>Global prop</td><td>Yes (window.x)</td><td>No</td><td>No</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:8px">⚠️ <code>const</code> prevents reassignment, NOT mutation — you can still mutate object properties.</p>
+    </div>
+
+    <div class="card-grid">
+      <div class="card must-know">
+        <h4>Closure</h4>
+        <pre><code><span class="kw">function</span> <span class="fn">counter</span>() {
+  <span class="kw">let</span> count = <span class="num">0</span>;         <span class="cmt">// closed-over var</span>
+  <span class="kw">return</span> {
+    inc: () => ++count,
+    get: () => count
+  };
+}
+<span class="kw">const</span> c = <span class="fn">counter</span>();
+c.<span class="fn">inc</span>(); c.<span class="fn">inc</span>();
+c.<span class="fn">get</span>(); <span class="cmt">// 2</span></code></pre>
+        <p>A closure is a function that <strong>remembers its lexical scope</strong> even when executed outside it.</p>
+      </div>
+
+      <div class="card">
+        <h4>Classic var Loop Bug & Fix</h4>
+        <pre><code><span class="cmt">// ❌ Bug — logs 3, 3, 3</span>
+<span class="kw">for</span> (<span class="kw">var</span> i = <span class="num">0</span>; i < <span class="num">3</span>; i++) {
+  <span class="fn">setTimeout</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(i), <span class="num">0</span>);
+}
+
+<span class="cmt">// ✅ Fix 1 — use let (block scope)</span>
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i < <span class="num">3</span>; i++) {
+  <span class="fn">setTimeout</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(i), <span class="num">0</span>);
+}
+
+<span class="cmt">// ✅ Fix 2 — IIFE to capture i</span>
+<span class="kw">for</span> (<span class="kw">var</span> i = <span class="num">0</span>; i < <span class="num">3</span>; i++) {
+  ((<span class="key">j</span>) => <span class="fn">setTimeout</span>(() =>
+    <span class="fn">console</span>.<span class="fn">log</span>(j), <span class="num">0</span>))(i);
+}</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROTOTYPE -->
+  <div class="section" id="js-proto">
+    <div class="section-header">
+      <div class="section-icon icon-js">JS</div>
+      <div>
+        <div class="section-title">Prototype & OOP</div>
+        <div class="section-subtitle">Prototype chain, classes, this binding</div>
+      </div>
+    </div>
+
+    <div class="card must-know">
+      <h4>this Binding Rules (priority order)</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Rule</th><th>Context</th><th>Value of this</th></tr></thead>
+          <tbody>
+            <tr><td>new</td><td><code>new Foo()</code></td><td>Newly created object</td></tr>
+            <tr><td>Explicit</td><td><code>.call() / .apply() / .bind()</code></td><td>First argument</td></tr>
+            <tr><td>Implicit</td><td><code>obj.method()</code></td><td>obj</td></tr>
+            <tr><td>Default</td><td><code>fn()</code> in strict</td><td>undefined</td></tr>
+            <tr><td>Default</td><td><code>fn()</code> non-strict</td><td>window/global</td></tr>
+            <tr><td>Arrow</td><td><code>() => {}</code></td><td>Lexical — no own this</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <h4>Prototype Chain</h4>
+        <pre><code><span class="kw">function</span> <span class="fn">Animal</span>(name) {
+  <span class="kw">this</span>.name = name;
+}
+<span class="cls">Animal</span>.prototype.speak = <span class="kw">function</span>() {
+  <span class="kw">return</span> <span class="str">`${this.name} speaks`</span>;
+};
+
+<span class="kw">const</span> dog = <span class="kw">new</span> <span class="fn">Animal</span>(<span class="str">'Rex'</span>);
+dog.speak(); <span class="cmt">// "Rex speaks"</span>
+<span class="cmt">// lookup: dog → Animal.prototype → Object.prototype → null</span></code></pre>
+      </div>
+
+      <div class="card">
+        <h4>ES6 Class (syntactic sugar)</h4>
+        <pre><code><span class="kw">class</span> <span class="cls">Animal</span> {
+  <span class="fn">constructor</span>(name) { <span class="kw">this</span>.name = name; }
+  <span class="fn">speak</span>() { <span class="kw">return</span> <span class="str">`${this.name} speaks`</span>; }
+}
+
+<span class="kw">class</span> <span class="cls">Dog</span> <span class="kw">extends</span> <span class="cls">Animal</span> {
+  <span class="fn">speak</span>() {
+    <span class="kw">return</span> <span class="kw">super</span>.<span class="fn">speak</span>() + <span class="str">' (woof)'</span>;
+  }
+}
+
+<span class="kw">const</span> d = <span class="kw">new</span> <span class="fn">Dog</span>(<span class="str">'Rex'</span>);
+d.<span class="fn">speak</span>(); <span class="cmt">// "Rex speaks (woof)"</span></code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ASYNC -->
+  <div class="section" id="js-async">
+    <div class="section-header">
+      <div class="section-icon icon-js">JS</div>
+      <div>
+        <div class="section-title">Async & Event Loop</div>
+        <div class="section-subtitle">Promises, async/await, microtasks vs macrotasks</div>
+      </div>
+    </div>
+
+    <div class="card must-know">
+      <h4>Event Loop — Execution Order</h4>
+      <div class="diagram">
+        <div class="event-loop-diagram">
+          <div class="el-box el-call-stack">
+            <div class="el-title">Call Stack</div>
+            <div class="el-items">Sync code<br>executes here<br>LIFO</div>
+          </div>
+          <div class="el-arrow">→</div>
+          <div class="el-box el-web-api">
+            <div class="el-title">Web APIs</div>
+            <div class="el-items">setTimeout<br>fetch / XHR<br>addEventListener</div>
+          </div>
+          <div class="el-arrow">→</div>
+          <div class="el-box el-callback">
+            <div class="el-title">Callback Queue</div>
+            <div class="el-items">Macrotasks<br>setTimeout cb<br>setInterval cb</div>
+          </div>
+          <div class="el-arrow">→</div>
+          <div class="el-box el-microtask">
+            <div class="el-title">Microtask Queue</div>
+            <div class="el-items">Promise.then<br>queueMicrotask<br>MutationObserver</div>
+          </div>
+          <div class="el-arrow">→</div>
+          <div class="el-box el-event-loop">
+            <div class="el-title">Event Loop</div>
+            <div class="el-items">Checks queues<br>Microtask first<br>then Macrotask</div>
+          </div>
+        </div>
+      </div>
+      <pre><code><span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'1'</span>);                          <span class="cmt">// sync</span>
+<span class="fn">setTimeout</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'2'</span>), <span class="num">0</span>);   <span class="cmt">// macrotask</span>
+<span class="cls">Promise</span>.<span class="fn">resolve</span>().<span class="fn">then</span>(() =>
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'3'</span>));                      <span class="cmt">// microtask</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'4'</span>);                          <span class="cmt">// sync</span>
+<span class="cmt">// Output: 1, 4, 3, 2</span></code></pre>
+    </div>
+
+    <div class="card-grid">
+      <div class="card must-know">
+        <h4>Promise States</h4>
+        <div class="diagram" style="padding:14px">
+          <div class="promise-diagram">
+            <div><span class="p-yellow">● pending</span>  → initial state</div>
+            <div>  ↙                  ↘</div>
+            <div><span class="p-green">✓ fulfilled</span>   <span class="p-red">✗ rejected</span></div>
+            <div>  ↓                  ↓</div>
+            <div><span class="p-blue">.then(cb)</span>    <span class="p-red">.catch(cb)</span></div>
+            <div>  ↓</div>
+            <div><span class="p-purple">.finally(cb)</span>  ← always runs</div>
+          </div>
+        </div>
+        <p>Once settled (<span class="hl-git">fulfilled</span> or <span class="hl-danger">rejected</span>), a promise is <strong>immutable</strong>.</p>
+      </div>
+
+      <div class="card">
+        <h4>Promise Combinators</h4>
+        <pre><code><span class="cmt">// Wait for ALL (fails if any fail)</span>
+<span class="kw">await</span> <span class="cls">Promise</span>.<span class="fn">all</span>([p1, p2, p3]);
+
+<span class="cmt">// Wait for first settled (any)</span>
+<span class="kw">await</span> <span class="cls">Promise</span>.<span class="fn">race</span>([p1, p2]);
+
+<span class="cmt">// ALL settled, never rejects</span>
+<span class="kw">await</span> <span class="cls">Promise</span>.<span class="fn">allSettled</span>([p1, p2]);
+
+<span class="cmt">// First FULFILLED (ignores rejects)</span>
+<span class="kw">await</span> <span class="cls">Promise</span>.<span class="fn">any</span>([p1, p2]);</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>async / await Pattern</h4>
+      <pre><code><span class="cmt">// Error handling with async/await</span>
+<span class="kw">async function</span> <span class="fn">fetchUser</span>(id) {
+  <span class="kw">try</span> {
+    <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">`/api/users/${id}`</span>);
+    <span class="kw">if</span> (!res.ok) <span class="kw">throw new</span> <span class="cls">Error</span>(<span class="str">'HTTP '</span> + res.status);
+    <span class="kw">const</span> data = <span class="kw">await</span> res.<span class="fn">json</span>();
+    <span class="kw">return</span> data;
+  } <span class="kw">catch</span> (err) {
+    <span class="fn">console</span>.<span class="fn">error</span>(<span class="str">'Failed:'</span>, err);
+    <span class="kw">throw</span> err; <span class="cmt">// re-throw or handle</span>
+  }
+}</code></pre>
+    </div>
+  </div>
+
+  <!-- ES6+ -->
+  <div class="section" id="js-es6">
+    <div class="section-header">
+      <div class="section-icon icon-js">JS</div>
+      <div>
+        <div class="section-title">ES6+ Essential Features</div>
+        <div class="section-subtitle">Destructuring, spread, modules, iterators</div>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card must-know">
+        <h4>Destructuring</h4>
+        <pre><code><span class="cmt">// Array destructuring</span>
+<span class="kw">const</span> [a, b, ...rest] = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>];
+<span class="cmt">// a=1, b=2, rest=[3,4]</span>
+
+<span class="cmt">// Object destructuring + rename + default</span>
+<span class="kw">const</span> { name: n = <span class="str">'anon'</span>, age } = user;
+
+<span class="cmt">// Nested + function param</span>
+<span class="kw">function</span> <span class="fn">greet</span>({ name, address: { city } }) {
+  <span class="kw">return</span> <span class="str">`${name} from ${city}`</span>;
+}</code></pre>
+      </div>
+
+      <div class="card">
+        <h4>Spread & Rest</h4>
+        <pre><code><span class="cmt">// Spread — expand iterables</span>
+<span class="kw">const</span> merged = [...arr1, ...arr2];
+<span class="kw">const</span> clone = { ...obj1, ...obj2 };
+<span class="fn">Math</span>.<span class="fn">max</span>(...nums);
+
+<span class="cmt">// Rest — collect remaining args</span>
+<span class="kw">function</span> <span class="fn">sum</span>(...nums) {
+  <span class="kw">return</span> nums.<span class="fn">reduce</span>((a, b) => a + b, <span class="num">0</span>);
+}
+
+<span class="cmt">// Optional chaining (ES2020)</span>
+user?.address?.city ?? <span class="str">'Unknown'</span></code></pre>
+      </div>
+
+      <div class="card">
+        <h4>Array Methods — must know</h4>
+        <pre><code>arr.<span class="fn">map</span>(fn)       <span class="cmt">// transform → new array</span>
+arr.<span class="fn">filter</span>(fn)    <span class="cmt">// filter → new array</span>
+arr.<span class="fn">reduce</span>(fn, v) <span class="cmt">// fold → single value</span>
+arr.<span class="fn">find</span>(fn)      <span class="cmt">// first match or undefined</span>
+arr.<span class="fn">some</span>(fn)      <span class="cmt">// any match? boolean</span>
+arr.<span class="fn">every</span>(fn)     <span class="cmt">// all match? boolean</span>
+arr.<span class="fn">flat</span>(depth)   <span class="cmt">// flatten nested</span>
+arr.<span class="fn">flatMap</span>(fn)   <span class="cmt">// map + flat(1)</span></code></pre>
+      </div>
+
+      <div class="card">
+        <h4>Object Methods</h4>
+        <pre><code><span class="cls">Object</span>.<span class="fn">keys</span>(obj)    <span class="cmt">// own enumerable keys</span>
+<span class="cls">Object</span>.<span class="fn">values</span>(obj)  <span class="cmt">// own enumerable values</span>
+<span class="cls">Object</span>.<span class="fn">entries</span>(obj) <span class="cmt">// [key,value] pairs</span>
+<span class="cls">Object</span>.<span class="fn">assign</span>({},o) <span class="cmt">// shallow copy</span>
+<span class="cls">Object</span>.<span class="fn">freeze</span>(obj)  <span class="cmt">// prevents mutation</span>
+<span class="cls">Object</span>.<span class="fn">create</span>(proto)<span class="cmt">// set prototype</span></code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS Q&A -->
+  <div class="section" id="js-qa">
+    <div class="section-header">
+      <div class="section-icon icon-js">JS</div>
+      <div>
+        <div class="section-title">Frequently Asked Q&A</div>
+        <div class="section-subtitle">Click to expand answers</div>
+      </div>
+    </div>
+
+    <div class="qa-block" onclick="toggleQA(this)">
+      <div class="qa-q">
+        <span class="qa-label q-label">Q</span>
+        <span class="qa-text">What is the difference between null and undefined?</span>
+        <span class="qa-chevron">▼</span>
+      </div>
+      <div class="qa-a">
+        <p><strong>undefined</strong> means a variable has been declared but not yet assigned a value. It's the default value of uninitialized variables, function parameters not provided, and missing object properties.</p>
+        <p><strong>null</strong> is an intentional assignment indicating "no value". It must be explicitly set by the programmer. <code>typeof null === 'object'</code> is a historical JS bug.</p>
+        <pre><code><span class="kw">let</span> x;           <span class="cmt">// undefined — not assigned</span>
+<span class="kw">let</span> y = <span class="bool">null</span>;    <span class="cmt">// null — intentionally empty</span>
+x == y;          <span class="cmt">// true (loose)</span>
+x === y;         <span class="cmt">// false (strict)</span></code></pre>
+      </div>
+    </div>
+
+    <div class="qa-block" onclick="toggleQA(this)">
+      <div class="qa-q">
+        <span class="qa-label q-label">Q</span>
+        <span class="qa-text">Explain Event Delegation.</span>
+        <span class="qa-chevron">▼</span>
+      </div>
+      <div class="qa-a">
+        <p>Event delegation uses <strong>event bubbling</strong> to handle events at a parent level rather than attaching listeners to each child. This is more efficient for dynamic lists.</p>
+        <pre><code><span class="cmt">// ❌ Bad — listener on every item</span>
+<span class="fn">document</span>.<span class="fn">querySelectorAll</span>(<span class="str">'li'</span>).<span class="fn">forEach</span>(
+  el => el.<span class="fn">addEventListener</span>(<span class="str">'click'</span>, handler)
+);
+
+<span class="cmt">// ✅ Good — one listener on parent</span>
+<span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="str">'ul'</span>)
+  .<span class="fn">addEventListener</span>(<span class="str">'click'</span>, (e) => {
+    <span class="kw">if</span> (e.target.matches(<span class="str">'li'</span>))
+      <span class="fn">handler</span>(e.target);
+  });</code></pre>
+      </div>
+    </div>
+
+    <div class="qa-block" onclick="toggleQA(this)">
+      <div class="qa-q">
+        <span class="qa-label q-label">Q</span>
+        <span class="qa-text">What is debounce vs throttle?</span>
+        <span class="qa-chevron">▼</span>
+      </div>
+      <div class="qa-a">
+        <p><strong>Debounce:</strong> Waits until the user stops triggering events for N ms before executing. Use for search input, resize handlers.</p>
+        <p><strong>Throttle:</strong> Executes at most once per N ms no matter how often triggered. Use for scroll, mouse-move events.</p>
+        <pre><code><span class="kw">function</span> <span class="fn">debounce</span>(fn, delay) {
+  <span class="kw">let</span> timer;
+  <span class="kw">return</span> (...args) => {
+    <span class="fn">clearTimeout</span>(timer);
+    timer = <span class="fn">setTimeout</span>(() => fn(...args), delay);
+  };
+}
+
+<span class="kw">function</span> <span class="fn">throttle</span>(fn, limit) {
+  <span class="kw">let</span> last = <span class="num">0</span>;
+  <span class="kw">return</span> (...args) => {
+    <span class="kw">if</span> (<span class="cls">Date</span>.<span class="fn">now</span>() - last >= limit) {
+      last = <span class="cls">Date</span>.<span class="fn">now</span>();
+      <span class="fn">fn</span>(...args);
+    }
+  };
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="qa-block" onclick="toggleQA(this)">
+      <div class="qa-q">
+        <span class="qa-label q-label">Q</span>
+        <span class="qa-text">What is a WeakMap / WeakSet and when would you use them?</span>
+        <span class="qa-chevron">▼</span>
+      </div>
+      <div class="qa-a">
+        <p><strong>WeakMap</strong> and <strong>WeakSet</strong> hold <em>weak references</em> to objects. When the object is garbage-collected, its entry is automatically removed — preventing memory leaks.</p>
+        <p>Use WeakMap for: private data per object, caching DOM node metadata, storing state associated with external objects you don't own.</p>
+        <pre><code><span class="kw">const</span> cache = <span class="kw">new</span> <span class="cls">WeakMap</span>();
+
+<span class="kw">function</span> <span class="fn">process</span>(node) {
+  <span class="kw">if</span> (cache.<span class="fn">has</span>(node)) <span class="kw">return</span> cache.<span class="fn">get</span>(node);
+  <span class="kw">const</span> result = <span class="fn">expensiveCompute</span>(node);
+  cache.<span class="fn">set</span>(node, result);
+  <span class="kw">return</span> result;
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="qa-block" onclick="toggleQA(this)">
+      <div class="qa-q">
+        <span class="qa-label q-label">Q</span>
+        <span class="qa-text">What is the Temporal Dead Zone (TDZ)?</span>
+        <span class="qa-chevron">▼</span>
+      </div>
+      <div class="qa-a">
+        <p>The TDZ is the time between entering a block scope and the point where a <code>let</code> or <code>const</code> declaration is actually evaluated. Accessing a variable in its TDZ throws a <code>ReferenceError</code>, unlike <code>var</code> which returns <code>undefined</code>.</p>
+        <pre><code><span class="fn">console</span>.<span class="fn">log</span>(x); <span class="cmt">// undefined — var hoisted</span>
+<span class="kw">var</span> x = <span class="num">5</span>;
+
+<span class="fn">console</span>.<span class="fn">log</span>(y); <span class="cmt">// ReferenceError — TDZ!</span>
+<span class="kw">let</span> y = <span class="num">5</span>;</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIOS -->
+  <div class="section" id="js-scenarios">
+    <div class="section-header">
+      <div class="section-icon icon-js">JS</div>
+      <div>
+        <div class="section-title">Scenario-Based Questions</div>
+        <div class="section-subtitle">Common real-world problem patterns</div>
+      </div>
+    </div>
+
+    <div class="scenario">
+      <div class="scenario-type">Scenario — Deep Clone</div>
+      <h4>"How would you deep-clone an object without using libraries?"</h4>
+      <p>For simple JSON-serializable objects: <code>JSON.parse(JSON.stringify(obj))</code>. Limitations: loses undefined, functions, Dates, circular refs. Better: <code>structuredClone(obj)</code> (modern browsers) — handles circular refs, Dates, Maps, Sets.</p>
+    </div>
+
+    <div class="scenario">
+      <div class="scenario-type">Scenario — Memory Leak</div>
+      <h4>"What are common memory leaks in JavaScript?"</h4>
+      <p>Global variables never garbage-collected; event listeners not removed when elements are removed; closures holding large data; timers (setInterval) referencing removed DOM; detached DOM nodes held by JS references.</p>
+    </div>
+
+    <div class="scenario">
+      <div class="scenario-type">Scenario — Output Question</div>
+      <h4>What does this output?</h4>
+      <pre><code><span class="fn">console</span>.<span class="fn">log</span>(<span class="num">1</span> + <span class="str">'2'</span>);  <span class="cmt">// "12" — number coerced to string</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'3'</span> - <span class="num">1</span>);  <span class="cmt">// 2  — string coerced to number</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="bool">true</span> + <span class="bool">true</span>); <span class="cmt">// 2  — bool to number</span>
+<span class="fn">console</span>.<span class="fn">log</span>([] + []);   <span class="cmt">// "" — both to empty string</span>
+<span class="fn">console</span>.<span class="fn">log</span>({} + []);   <span class="cmt">// "[object Object]"</span></code></pre>
+    </div>
+  </div>
+
+</div>
+<!-- END JS TAB -->
+
+<!-- ═══════════════════════════════════════════════
+     HTML
+════════════════════════════════════════════════ -->
+<div id="tab-html" class="tab-pane">
+
+  <div class="section" id="html-semantics">
+    <div class="section-header">
+      <div class="section-icon icon-html">H</div>
+      <div>
+        <div class="section-title">Semantic HTML</div>
+        <div class="section-subtitle">Structure, accessibility, meaningful elements</div>
+      </div>
+    </div>
+
+    <div class="card must-know">
+      <h4>Semantic vs Non-Semantic</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Semantic</th><th>Purpose</th><th>Avoid</th></tr></thead>
+          <tbody>
+            <tr><td>&lt;header&gt;</td><td>Page/section header</td><td>&lt;div class="header"&gt;</td></tr>
+            <tr><td>&lt;nav&gt;</td><td>Navigation links</td><td>&lt;div class="nav"&gt;</td></tr>
+            <tr><td>&lt;main&gt;</td><td>Primary page content</td><td>&lt;div id="main"&gt;</td></tr>
+            <tr><td>&lt;article&gt;</td><td>Self-contained content</td><td>&lt;div class="post"&gt;</td></tr>
+            <tr><td>&lt;section&gt;</td><td>Thematic grouping</td><td>&lt;div class="section"&gt;</td></tr>
+            <tr><td>&lt;aside&gt;</td><td>Sidebar / tangential</td><td>&lt;div class="sidebar"&gt;</td></tr>
+            <tr><td>&lt;footer&gt;</td><td>Page/section footer</td><td>&lt;div class="footer"&gt;</td></tr>
+            <tr><td>&lt;figure&gt; / &lt;figcaption&gt;</td><td>Media with caption</td><td>&lt;div&gt; + &lt;p&gt;</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card must-know">
+        <h4>Accessibility (a11y) Must-Know</h4>
+        <ul>
+          <li>Always provide <code>alt</code> text for images (empty <code>alt=""</code> for decorative)</li>
+          <li>Use <code>&lt;label for="id"&gt;</code> or wrap inputs in label</li>
+          <li>Heading hierarchy: one <code>h1</code>, logical h2→h6 order</li>
+          <li>ARIA roles: <code>role="button"</code> when not using <code>&lt;button&gt;</code></li>
+          <li><code>aria-label</code>, <code>aria-describedby</code>, <code>aria-live</code> for dynamic content</li>
+          <li>Ensure <strong>keyboard navigation</strong> works — tabindex, focus styles</li>
+          <li>Color contrast ratio: WCAG AA = 4.5:1 for normal text</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h4>Block vs Inline vs Inline-Block</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Type</th><th>Examples</th><th>Width</th><th>New Line</th></tr></thead>
+            <tbody>
+              <tr><td>Block</td><td>div, p, h1, section</td><td>Full width</td><td>Yes</td></tr>
+              <tr><td>Inline</td><td>span, a, strong, em</td><td>Content</td><td>No</td></tr>
+              <tr><td>Inline-block</td><td>img, button</td><td>Content</td><td>No</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="html-forms">
+    <div class="section-header">
+      <div class="section-icon icon-html">H</div>
+      <div>
+        <div class="section-title">Forms & Inputs</div>
+        <div class="section-subtitle">Input types, validation, attributes</div>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <h4>Key Form Attributes</h4>
+        <pre><code><span class="kw">&lt;form</span>
+  <span class="key">action</span>=<span class="str">"/submit"</span>   <span class="cmt">&lt;!-- URL --&gt;</span>
+  <span class="key">method</span>=<span class="str">"POST"</span>     <span class="cmt">&lt;!-- GET|POST --&gt;</span>
+  <span class="key">enctype</span>=<span class="str">"multipart/form-data"</span> <span class="cmt">&lt;!-- for file upload --&gt;</span>
+  <span class="key">novalidate</span>         <span class="cmt">&lt;!-- skip browser validation --&gt;</span>
+<span class="kw">&gt;</span></code></pre>
+      </div>
+
+      <div class="card">
+        <h4>HTML5 Input Types</h4>
+        <div class="pill-row">
+          <span class="pill pill-blue">text</span><span class="pill pill-blue">email</span>
+          <span class="pill pill-blue">password</span><span class="pill pill-blue">number</span>
+          <span class="pill pill-blue">tel</span><span class="pill pill-blue">url</span>
+          <span class="pill pill-blue">date</span><span class="pill pill-blue">time</span>
+          <span class="pill pill-blue">range</span><span class="pill pill-blue">color</span>
+          <span class="pill pill-blue">file</span><span class="pill pill-blue">checkbox</span>
+          <span class="pill pill-blue">radio</span><span class="pill pill-blue">search</span>
+        </div>
+        <p style="margin-top:8px">HTML5 types give <strong>built-in validation + mobile keyboard hints</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="html-meta">
+    <div class="section-header">
+      <div class="section-icon icon-html">H</div>
+      <div>
+        <div class="section-title">Meta Tags & SEO</div>
+        <div class="section-subtitle">Head tags that matter for interviews</div>
+      </div>
+    </div>
+
+    <div class="card must-know">
+      <h4>Critical Head Tags</h4>
+      <pre><code><span class="kw">&lt;head&gt;</span>
+  <span class="kw">&lt;meta</span> <span class="key">charset</span>=<span class="str">"UTF-8"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;meta</span> <span class="key">name</span>=<span class="str">"viewport"</span> <span class="key">content</span>=<span class="str">"width=device-width, initial-scale=1"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;meta</span> <span class="key">name</span>=<span class="str">"description"</span> <span class="key">content</span>=<span class="str">"Page description for SEO"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;link</span> <span class="key">rel</span>=<span class="str">"canonical"</span> <span class="key">href</span>=<span class="str">"https://example.com/page"</span><span class="kw">&gt;</span>
+  <span class="cmt">&lt;!-- Open Graph --&gt;</span>
+  <span class="kw">&lt;meta</span> <span class="key">property</span>=<span class="str">"og:title"</span> <span class="key">content</span>=<span class="str">"Page Title"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;meta</span> <span class="key">property</span>=<span class="str">"og:image"</span> <span class="key">content</span>=<span class="str">"https://..."</span><span class="kw">&gt;</span>
+<span class="kw">&lt;/head&gt;</span></code></pre>
+    </div>
+
+    <div class="section" id="html-qa">
+      <div class="card">
+        <h4>⭐ Top HTML Interview Q&A</h4>
+        <ul>
+          <li><strong>data-* attributes:</strong> Custom data stored in HTML, accessed via <code>element.dataset</code></li>
+          <li><strong>defer vs async:</strong> <code>defer</code> executes after DOM parsed, in order. <code>async</code> executes immediately when loaded, out of order.</li>
+          <li><strong>srcset:</strong> Provides multiple image resolutions for responsive images — browser picks best fit.</li>
+          <li><strong>preload vs prefetch:</strong> <code>preload</code> — critical resource for current page. <code>prefetch</code> — hints for next navigation.</li>
+          <li><strong>Shadow DOM:</strong> Encapsulated DOM subtree — styles don't leak in or out. Used in Web Components.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END HTML TAB -->
+
+<!-- ═══════════════════════════════════════════════
+     CSS
+════════════════════════════════════════════════ -->
+<div id="tab-css" class="tab-pane">
+
+  <div class="section" id="css-box">
+    <div class="section-header">
+      <div class="section-icon icon-css">CSS</div>
+      <div>
+        <div class="section-title">Box Model & Positioning</div>
+        <div class="section-subtitle">The foundation of layout</div>
+      </div>
+    </div>
+
+    <div class="card must-know">
+      <h4>Box Model</h4>
+      <div class="diagram" style="font-family:'JetBrains Mono',monospace; font-size:12px; line-height:2; color:var(--muted)">
+<pre style="border:none; background:transparent; padding:0; color:inherit">┌─────────────────────────────────── <span style="color:var(--muted)">margin</span> ────────────────────────────────┐
+│  ┌──────────────────────────── <span style="color:var(--js)">border</span> ────────────────────────────────┐  │
+│  │  ┌────────────────────── <span style="color:var(--css)">padding</span> ──────────────────────────────┐  │  │
+│  │  │                                                              │  │  │
+│  │  │                     <span style="color:var(--blue)">content</span>                                 │  │  │
+│  │  │                  width × height                              │  │  │
+│  │  └──────────────────────────────────────────────────────────────┘  │  │
+│  └──────────────────────────────────────────────────────────────────────┘  │
+└────────────────────────────────────────────────────────────────────────────┘</pre>
+      </div>
+      <pre><code><span class="cmt">/* Default — border NOT included in width */</span>
+<span class="fn">box-sizing</span>: content-box;  <span class="cmt">/* total = width + padding + border */</span>
+
+<span class="cmt">/* Better — border IS included in width */</span>
+<span class="fn">box-sizing</span>: border-box;   <span class="cmt">/* total = width */</span>
+
+<span class="cmt">/* Apply globally */</span>
+*, *::before, *::after { box-sizing: border-box; }</code></pre>
+    </div>
+
+    <div class="card-grid">
+      <div class="card must-know">
+        <h4>Position Values</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Value</th><th>Behaviour</th></tr></thead>
+            <tbody>
+              <tr><td>static</td><td>Default — normal flow, top/left ignored</td></tr>
+              <tr><td>relative</td><td>Offset from own normal position</td></tr>
+              <tr><td>absolute</td><td>Relative to nearest non-static ancestor</td></tr>
+              <tr><td>fixed</td><td>Relative to viewport — stays on scroll</td></tr>
+              <tr><td>sticky</td><td>Relative until threshold → fixed</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h4>Stacking Context</h4>
+        <pre><code><span class="cmt">/* z-index only works on positioned elements */</span>
+<span class="fn">position</span>: relative; <span class="cmt">/* + */</span>
+<span class="fn">z-index</span>: <span class="num">10</span>;
+
+<span class="cmt">/* New stacking context created by: */</span>
+<span class="fn">opacity</span>: <span class="num">&lt;1</span>
+<span class="fn">transform</span>: <span class="fn">translate</span>(<span class="num">0</span>)
+<span class="fn">filter</span>: blur(<span class="num">0</span>)
+<span class="fn">will-change</span>: transform
+<span class="fn">isolation</span>: isolate</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="css-specificity">
+    <div class="section-header">
+      <div class="section-icon icon-css">CSS</div>
+      <div>
+        <div class="section-title">Specificity & Cascade</div>
+        <div class="section-subtitle">Why your styles aren't applying</div>
+      </div>
+    </div>
+
+    <div class="card must-know">
+      <h4>Specificity (0, 0, 0, 0) — higher wins</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Selector</th><th>Score</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td>!important</td><td>Overrides all</td><td><code>color: red !important</code></td></tr>
+            <tr><td>Inline style</td><td>1, 0, 0, 0</td><td><code>style="color:red"</code></td></tr>
+            <tr><td>ID</td><td>0, 1, 0, 0</td><td><code>#header</code></td></tr>
+            <tr><td>Class / Attribute / Pseudo-class</td><td>0, 0, 1, 0</td><td><code>.btn</code> <code>[type]</code> <code>:hover</code></td></tr>
+            <tr><td>Element / Pseudo-element</td><td>0, 0, 0, 1</td><td><code>div</code> <code>::before</code></td></tr>
+            <tr><td>Universal / Combinator</td><td>0, 0, 0, 0</td><td><code>*</code> <code>></code> <code>+</code> <code>~</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="css-flex">
+    <div class="section-header">
+      <div class="section-icon icon-css">CSS</div>
+      <div>
+        <div class="section-title">Flexbox Quick Reference</div>
+        <div class="section-subtitle">Container vs item properties at a glance</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card must-know">
+        <h4>Container Properties</h4>
+        <pre><code>.container {
+  <span class="fn">display</span>: flex;
+  <span class="fn">flex-direction</span>: row | column;
+  <span class="fn">flex-wrap</span>: nowrap | wrap;
+  <span class="fn">justify-content</span>:  <span class="cmt">/* main axis */</span>
+    flex-start | flex-end | center |
+    space-between | space-around |
+    space-evenly;
+  <span class="fn">align-items</span>:       <span class="cmt">/* cross axis */</span>
+    stretch | flex-start | flex-end |
+    center | baseline;
+  <span class="fn">gap</span>: 16px;
+}</code></pre>
+      </div>
+
+      <div class="card">
+        <h4>Item Properties</h4>
+        <pre><code>.item {
+  <span class="fn">flex-grow</span>: <span class="num">1</span>;    <span class="cmt">/* grow to fill space */</span>
+  <span class="fn">flex-shrink</span>: <span class="num">1</span>; <span class="cmt">/* shrink if needed */</span>
+  <span class="fn">flex-basis</span>: auto;<span class="cmt">/* initial size */</span>
+  <span class="cmt">/* Shorthand: grow shrink basis */</span>
+  <span class="fn">flex</span>: <span class="num">1 1</span> auto;
+
+  <span class="fn">align-self</span>: flex-end;  <span class="cmt">/* override */</span>
+  <span class="fn">order</span>: <span class="num">2</span>;             <span class="cmt">/* visual order */</span>
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>justify-content vs align-items</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Property</th><th>Axis</th><th>Direction</th></tr></thead>
+          <tbody>
+            <tr><td>justify-content</td><td>Main axis</td><td>row→horizontal, column→vertical</td></tr>
+            <tr><td>align-items</td><td>Cross axis</td><td>row→vertical, column→horizontal</td></tr>
+            <tr><td>align-content</td><td>Cross axis</td><td>Multiple lines only</td></tr>
+            <tr><td>align-self</td><td>Cross axis</td><td>Individual item override</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="css-grid">
+    <div class="section-header">
+      <div class="section-icon icon-css">CSS</div>
+      <div>
+        <div class="section-title">CSS Grid Quick Reference</div>
+        <div class="section-subtitle">Two-dimensional layout powerhouse</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card must-know">
+        <h4>Grid Container</h4>
+        <pre><code>.grid {
+  <span class="fn">display</span>: grid;
+  <span class="cmt">/* Define columns */</span>
+  <span class="fn">grid-template-columns</span>:
+    repeat(<span class="num">3</span>, <span class="num">1</span>fr);        <span class="cmt">/* 3 equal cols */</span>
+    <span class="num">200</span>px auto <span class="num">1</span>fr;         <span class="cmt">/* mixed */</span>
+    repeat(auto-fit,
+      minmax(<span class="num">250</span>px, <span class="num">1</span>fr));  <span class="cmt">/* responsive! */</span>
+
+  <span class="fn">grid-template-rows</span>: auto <span class="num">1</span>fr auto;
+  <span class="fn">gap</span>: <span class="num">16</span>px;
+  <span class="fn">justify-items</span>: stretch;
+  <span class="fn">align-items</span>: stretch;
+}</code></pre>
+      </div>
+
+      <div class="card">
+        <h4>Grid Item Placement</h4>
+        <pre><code>.item {
+  <span class="cmt">/* column-start / column-end */</span>
+  <span class="fn">grid-column</span>: <span class="num">1</span> / <span class="num">3</span>;       <span class="cmt">/* span 2 cols */</span>
+  <span class="fn">grid-column</span>: <span class="num">1</span> / -<span class="num">1</span>;      <span class="cmt">/* full width */</span>
+  <span class="fn">grid-column</span>: span <span class="num">2</span>;       <span class="cmt">/* span 2 cols */</span>
+
+  <span class="fn">grid-row</span>: <span class="num">1</span> / <span class="num">3</span>;           <span class="cmt">/* span 2 rows */</span>
+
+  <span class="cmt">/* Named areas */</span>
+  <span class="fn">grid-area</span>: header;
+}
+
+<span class="cmt">/* Named area layout */</span>
+.grid {
+  <span class="fn">grid-template-areas</span>:
+    <span class="str">"header header"</span>
+    <span class="str">"sidebar main"</span>
+    <span class="str">"footer footer"</span>;
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>Flexbox vs Grid — When to Use Which</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Use Case</th><th>Flexbox</th><th>Grid</th></tr></thead>
+          <tbody>
+            <tr><td>1D row or column layout</td><td><span class="badge badge-green">✅ Ideal</span></td><td>Works</td></tr>
+            <tr><td>2D rows AND columns</td><td>Awkward</td><td><span class="badge badge-green">✅ Ideal</span></td></tr>
+            <tr><td>Content-driven sizing</td><td><span class="badge badge-green">✅ Ideal</span></td><td>Works</td></tr>
+            <tr><td>Strict column alignment</td><td>Hard</td><td><span class="badge badge-green">✅ Ideal</span></td></tr>
+            <tr><td>Navbar items</td><td><span class="badge badge-green">✅ Ideal</span></td><td>Overkill</td></tr>
+            <tr><td>Card grid / magazine layout</td><td>Works</td><td><span class="badge badge-green">✅ Ideal</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="css-qa">
+    <div class="section-header">
+      <div class="section-icon icon-css">CSS</div>
+      <div>
+        <div class="section-title">CSS Interview Q&A</div>
+      </div>
+    </div>
+
+    <div class="qa-block" onclick="toggleQA(this)">
+      <div class="qa-q">
+        <span class="qa-label q-label">Q</span>
+        <span class="qa-text">What is BEM naming convention?</span>
+        <span class="qa-chevron">▼</span>
+      </div>
+      <div class="qa-a">
+        <p>BEM = <strong>B</strong>lock__<strong>E</strong>lement--<strong>M</strong>odifier. It creates a flat, predictable class structure that avoids specificity wars.</p>
+        <pre><code><span class="cmt">/* Block */</span>         .card {}
+<span class="cmt">/* Element */</span>       .card__title {}
+<span class="cmt">/* Modifier */</span>      .card--featured {}
+.card__title--large {}</code></pre>
+      </div>
+    </div>
+
+    <div class="qa-block" onclick="toggleQA(this)">
+      <div class="qa-q">
+        <span class="qa-label q-label">Q</span>
+        <span class="qa-text">Explain CSS custom properties (variables).</span>
+        <span class="qa-chevron">▼</span>
+      </div>
+      <div class="qa-a">
+        <p>CSS variables (custom properties) are <strong>inherited</strong> and can be updated with JavaScript. They cascade and scope to the element they're defined on.</p>
+        <pre><code>:root {
+  --primary: #3B82F6;
+  --spacing: 16px;
+}
+
+.button {
+  background: var(--primary);
+  padding: var(--spacing);
+  <span class="cmt">/* Fallback: */</span>
+  color: var(--text-color, black);
+}
+
+<span class="cmt">// Update via JS</span>
+document.documentElement.style
+  .setProperty('--primary', '#EF4444');</code></pre>
+      </div>
+    </div>
+
+    <div class="qa-block" onclick="toggleQA(this)">
+      <div class="qa-q">
+        <span class="qa-label q-label">Q</span>
+        <span class="qa-text">What's the difference between em, rem, vw, vh, and px?</span>
+        <span class="qa-chevron">▼</span>
+      </div>
+      <div class="qa-a">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Unit</th><th>Relative to</th><th>Best for</th></tr></thead>
+            <tbody>
+              <tr><td>px</td><td>Absolute pixels</td><td>Borders, box shadows</td></tr>
+              <tr><td>em</td><td>Parent element font-size</td><td>Component-level padding/margin</td></tr>
+              <tr><td>rem</td><td>Root (html) font-size</td><td>Typography, global spacing</td></tr>
+              <tr><td>vw</td><td>Viewport width %</td><td>Full-width elements</td></tr>
+              <tr><td>vh</td><td>Viewport height %</td><td>Full-screen sections</td></tr>
+              <tr><td>%</td><td>Parent element size</td><td>Fluid widths</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END CSS TAB -->
+
+<!-- ═══════════════════════════════════════════════
+     GIT
+════════════════════════════════════════════════ -->
+<div id="tab-git" class="tab-pane">
+
+  <div class="section" id="git-core">
+    <div class="section-header">
+      <div class="section-icon icon-git">Git</div>
+      <div>
+        <div class="section-title">Core Git Commands</div>
+        <div class="section-subtitle">The commands you'll use every day</div>
+      </div>
+    </div>
+
+    <div class="card must-know">
+      <div class="cmd-group">
+        <div class="cmd-group-title">Setup & Init</div>
+        <div class="cmd-row"><span class="cmd-code">git init</span><span class="cmd-desc">Initialize a new repository in current directory</span></div>
+        <div class="cmd-row"><span class="cmd-code">git clone &lt;url&gt;</span><span class="cmd-desc">Clone a remote repository locally</span></div>
+        <div class="cmd-row"><span class="cmd-code">git config --global user.name "Name"</span><span class="cmd-desc">Set global username</span></div>
+        <div class="cmd-row"><span class="cmd-code">git config --global user.email "e@mail"</span><span class="cmd-desc">Set global email</span></div>
+      </div>
+
+      <div class="cmd-group">
+        <div class="cmd-group-title">Stage & Commit</div>
+        <div class="cmd-row"><span class="cmd-code">git status</span><span class="cmd-desc">Show modified/staged/untracked files</span></div>
+        <div class="cmd-row"><span class="cmd-code">git add &lt;file&gt;</span><span class="cmd-desc">Stage a specific file</span></div>
+        <div class="cmd-row"><span class="cmd-code">git add .</span><span class="cmd-desc">Stage all changes in current directory</span></div>
+        <div class="cmd-row"><span class="cmd-code">git add -p</span><span class="cmd-desc">Interactively stage hunks (patch mode)</span></div>
+        <div class="cmd-row"><span class="cmd-code">git commit -m "message"</span><span class="cmd-desc">Commit with a message</span></div>
+        <div class="cmd-row"><span class="cmd-code">git commit --amend</span><span class="cmd-desc">Modify the most recent commit (message or files)</span></div>
+      </div>
+
+      <div class="cmd-group">
+        <div class="cmd-group-title">Remote</div>
+        <div class="cmd-row"><span class="cmd-code">git remote -v</span><span class="cmd-desc">List remote connections</span></div>
+        <div class="cmd-row"><span class="cmd-code">git fetch origin</span><span class="cmd-desc">Download changes without merging</span></div>
+        <div class="cmd-row"><span class="cmd-code">git pull origin main</span><span class="cmd-desc">Fetch + merge remote branch</span></div>
+        <div class="cmd-row"><span class="cmd-code">git push origin &lt;branch&gt;</span><span class="cmd-desc">Push branch to remote</span></div>
+        <div class="cmd-row"><span class="cmd-code">git push -u origin &lt;branch&gt;</span><span class="cmd-desc">Push and set upstream tracking</span></div>
+        <div class="cmd-row"><span class="cmd-code">git push --force-with-lease</span><span class="cmd-desc">Safe force-push — fails if remote changed</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="git-branch">
+    <div class="section-header">
+      <div class="section-icon icon-git">Git</div>
+      <div>
+        <div class="section-title">Branching & Merging</div>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card must-know">
+        <div class="cmd-group">
+          <div class="cmd-group-title">Branch Commands</div>
+          <div class="cmd-row"><span class="cmd-code">git branch</span><span class="cmd-desc">List local branches</span></div>
+          <div class="cmd-row"><span class="cmd-code">git branch -a</span><span class="cmd-desc">List all (local + remote)</span></div>
+          <div class="cmd-row"><span class="cmd-code">git branch &lt;name&gt;</span><span class="cmd-desc">Create new branch</span></div>
+          <div class="cmd-row"><span class="cmd-code">git switch -c &lt;name&gt;</span><span class="cmd-desc">Create + switch (modern)</span></div>
+          <div class="cmd-row"><span class="cmd-code">git checkout -b &lt;name&gt;</span><span class="cmd-desc">Create + switch (classic)</span></div>
+          <div class="cmd-row"><span class="cmd-code">git branch -d &lt;name&gt;</span><span class="cmd-desc">Delete merged branch</span></div>
+          <div class="cmd-row"><span class="cmd-code">git branch -D &lt;name&gt;</span><span class="cmd-desc">Force delete branch</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="cmd-group">
+          <div class="cmd-group-title">Merge vs Rebase</div>
+          <div class="cmd-row"><span class="cmd-code">git merge &lt;branch&gt;</span><span class="cmd-desc">Merge branch into current — creates merge commit</span></div>
+          <div class="cmd-row"><span class="cmd-code">git merge --squash &lt;branch&gt;</span><span class="cmd-desc">Squash all commits into one before merging</span></div>
+          <div class="cmd-row"><span class="cmd-code">git rebase main</span><span class="cmd-desc">Reapply commits on top of main — linear history</span></div>
+          <div class="cmd-row"><span class="cmd-code">git rebase -i HEAD~3</span><span class="cmd-desc">Interactive rebase: squash, edit, reorder last 3 commits</span></div>
+          <div class="cmd-row"><span class="cmd-code">git cherry-pick &lt;sha&gt;</span><span class="cmd-desc">Apply a specific commit to current branch</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card must-know">
+      <h4>Merge vs Rebase — The Key Difference</h4>
+      <div class="diagram" style="font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--muted)">
+<pre style="border:none; background:transparent; padding:0; color:inherit"><span style="color:var(--blue)">── MERGE ──</span>  Preserves history, creates merge commit
+A — B — C (main)          A — B — C (main)
+         \            →            \         \
+          D — E (feat)              D — E ─── M  ← merge commit
+
+<span style="color:var(--git)">── REBASE ──</span>  Linear history, rewrites commits
+A — B — C (main)          A — B — C (main)
+         \            →                     \
+          D — E (feat)                       D' — E'  ← replayed</pre>
+      </div>
+      <p>⚠️ <strong>Never rebase shared/public branches</strong> — it rewrites history that others depend on.</p>
+    </div>
+  </div>
+
+  <div class="section" id="git-undo">
+    <div class="section-header">
+      <div class="section-icon icon-git">Git</div>
+      <div>
+        <div class="section-title">Undo & Reset</div>
+        <div class="section-subtitle">How to fix mistakes safely</div>
+      </div>
+    </div>
+
+    <div class="card must-know">
+      <div class="cmd-group">
+        <div class="cmd-group-title">Undo Commands</div>
+        <div class="cmd-row"><span class="cmd-code">git restore &lt;file&gt;</span><span class="cmd-desc">Discard unstaged changes in a file</span></div>
+        <div class="cmd-row"><span class="cmd-code">git restore --staged &lt;file&gt;</span><span class="cmd-desc">Unstage a file (keep changes)</span></div>
+        <div class="cmd-row"><span class="cmd-code">git revert &lt;sha&gt;</span><span class="cmd-desc">Create a new commit undoing a commit — safe for shared branches</span></div>
+        <div class="cmd-row"><span class="cmd-code">git reset --soft HEAD~1</span><span class="cmd-desc">Undo last commit — keep changes staged</span></div>
+        <div class="cmd-row"><span class="cmd-code">git reset --mixed HEAD~1</span><span class="cmd-desc">Undo last commit — keep changes unstaged (default)</span></div>
+        <div class="cmd-row"><span class="cmd-code">git reset --hard HEAD~1</span><span class="cmd-desc">⚠️ Undo last commit — DISCARD all changes</span></div>
+        <div class="cmd-row"><span class="cmd-code">git stash</span><span class="cmd-desc">Temporarily shelve changes</span></div>
+        <div class="cmd-row"><span class="cmd-code">git stash pop</span><span class="cmd-desc">Restore stashed changes + remove from stash</span></div>
+        <div class="cmd-row"><span class="cmd-code">git reflog</span><span class="cmd-desc">History of HEAD — recover "lost" commits</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="git-flow">
+    <div class="section-header">
+      <div class="section-icon icon-git">Git</div>
+      <div>
+        <div class="section-title">Git Workflows</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>Common Workflow Comparison</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Workflow</th><th>Branch Strategy</th><th>Best For</th></tr></thead>
+          <tbody>
+            <tr><td>Feature Branch</td><td>main + feature/* branches</td><td>Most teams — simple and effective</td></tr>
+            <tr><td>Git Flow</td><td>main, develop, feature/*, release/*, hotfix/*</td><td>Versioned software with release cycles</td></tr>
+            <tr><td>GitHub Flow</td><td>main + short-lived feature branches + PRs</td><td>Continuous deployment, smaller teams</td></tr>
+            <tr><td>Trunk-Based</td><td>One main branch, very short-lived branches</td><td>CI/CD shops — requires good test coverage</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="git-qa">
+    <div class="section-header">
+      <div class="section-icon icon-git">Git</div>
+      <div>
+        <div class="section-title">Git Interview Q&A</div>
+      </div>
+    </div>
+
+    <div class="qa-block" onclick="toggleQA(this)">
+      <div class="qa-q">
+        <span class="qa-label q-label">Q</span>
+        <span class="qa-text">What's the difference between git fetch and git pull?</span>
+        <span class="qa-chevron">▼</span>
+      </div>
+      <div class="qa-a">
+        <p><code>git fetch</code> downloads changes from remote but does NOT modify your working tree or current branch. <code>git pull</code> = <code>git fetch</code> + <code>git merge</code> — it downloads and immediately merges into your current branch. Use fetch when you want to inspect changes before integrating.</p>
+      </div>
+    </div>
+
+    <div class="qa-block" onclick="toggleQA(this)">
+      <div class="qa-q">
+        <span class="qa-label q-label">Q</span>
+        <span class="qa-text">What is git stash and when would you use it?</span>
+        <span class="qa-chevron">▼</span>
+      </div>
+      <div class="qa-a">
+        <p>Stash temporarily saves uncommitted changes so you can switch branches or pull without losing work. Typical scenario: you're mid-feature when an urgent bug report comes in — stash your work, fix the bug on another branch, then pop the stash to resume.</p>
+        <pre><code>git stash                  <span class="cmt"># save current work</span>
+git stash list             <span class="cmt"># see all stashes</span>
+git stash apply stash@{1}  <span class="cmt"># apply specific stash</span>
+git stash drop stash@{0}   <span class="cmt"># delete a stash</span>
+git stash pop              <span class="cmt"># apply latest + delete</span></code></pre>
+      </div>
+    </div>
+
+    <div class="qa-block" onclick="toggleQA(this)">
+      <div class="qa-q">
+        <span class="qa-label q-label">Q</span>
+        <span class="qa-text">How do you resolve a merge conflict?</span>
+        <span class="qa-chevron">▼</span>
+      </div>
+      <div class="qa-a">
+        <p>Git marks conflicts in the file with conflict markers. You edit the file to resolve, then stage and commit.</p>
+        <pre><code><span class="cmt"># In the conflicted file:</span>
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+  your version
+=======
+  incoming version
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature-branch
+
+<span class="cmt"># Steps:</span>
+1. Open conflicted file, edit to desired state
+2. git add &lt;file&gt;         # mark as resolved
+3. git commit             # complete the merge</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END GIT TAB -->
+
+<!-- ═══════════════════════════════════════════════
+     30-MIN REVISION
+════════════════════════════════════════════════ -->
+<div id="tab-lastminute" class="tab-pane">
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--star-dim); color:var(--star); font-size:16px; font-family:sans-serif">⚡</div>
+      <div>
+        <div class="section-title" style="color:var(--star)">30-Minute Last-Minute Revision</div>
+        <div class="section-subtitle">Everything you absolutely must know before the interview starts</div>
+      </div>
+    </div>
+
+    <div class="revision-section">
+      <div class="revision-header">
+        <div class="revision-icon">🟡</div>
+        <div class="revision-title">JavaScript — 10 min</div>
+      </div>
+      <ul class="checklist">
+        <li><span class="check-icon">★</span><span><strong>Event Loop order:</strong> Sync → Microtasks (Promise.then) → Macrotasks (setTimeout)</span></li>
+        <li><span class="check-icon">★</span><span><strong>Closure:</strong> Function retaining access to its outer scope's variables after outer function returns</span></li>
+        <li><span class="check-icon">★</span><span><strong>var vs let vs const:</strong> var=function scope+hoisted; let/const=block scope+TDZ; const=no reassign</span></li>
+        <li><span class="check-icon">★</span><span><strong>this:</strong> Arrow functions have no own <code>this</code> — they inherit lexically</span></li>
+        <li><span class="check-icon">★</span><span><strong>== vs ===:</strong> Always use <code>===</code>. <code>null == undefined</code> is true; <code>null === undefined</code> is false</span></li>
+        <li><span class="check-icon">★</span><span><strong>Promise.all</strong> vs <strong>Promise.allSettled:</strong> all fails fast; allSettled waits for all regardless</span></li>
+        <li><span class="check-icon">★</span><span><strong>Prototype chain:</strong> obj → prototype → Object.prototype → null</span></li>
+        <li><span class="check-icon">★</span><span><strong>Debounce</strong> = execute after user stops; <strong>Throttle</strong> = max once per N ms</span></li>
+        <li><span class="check-icon">★</span><span><strong>typeof null === 'object'</strong> — famous JS bug, not a feature</span></li>
+        <li><span class="check-icon">★</span><span><strong>Spread copies shallow.</strong> Use <code>structuredClone()</code> for deep copy</span></li>
+      </ul>
+    </div>
+
+    <div class="revision-section">
+      <div class="revision-header">
+        <div class="revision-icon">🔴</div>
+        <div class="revision-title">HTML — 5 min</div>
+      </div>
+      <ul class="checklist">
+        <li><span class="check-icon">★</span><span><strong>Semantic tags matter:</strong> header, nav, main, article, section, aside, footer</span></li>
+        <li><span class="check-icon">★</span><span><strong>defer vs async:</strong> defer=in order after DOM; async=immediately when loaded, unordered</span></li>
+        <li><span class="check-icon">★</span><span><strong>Always alt="" on images.</strong> Empty string for decorative images</span></li>
+        <li><span class="check-icon">★</span><span><strong>meta viewport</strong> is required for responsive design</span></li>
+        <li><span class="check-icon">★</span><span><strong>a11y:</strong> Use ARIA labels, ensure keyboard navigation, heading hierarchy h1→h6</span></li>
+      </ul>
+    </div>
+
+    <div class="revision-section">
+      <div class="revision-header">
+        <div class="revision-icon">🟣</div>
+        <div class="revision-title">CSS — 10 min</div>
+      </div>
+      <ul class="checklist">
+        <li><span class="check-icon">★</span><span><strong>Box model:</strong> content → padding → border → margin. Use <code>box-sizing: border-box</code> always</span></li>
+        <li><span class="check-icon">★</span><span><strong>Specificity:</strong> inline > ID > class/attr > element. !important overrides all</span></li>
+        <li><span class="check-icon">★</span><span><strong>Flexbox axis:</strong> justify-content = main axis; align-items = cross axis</span></li>
+        <li><span class="check-icon">★</span><span><strong>Grid:</strong> <code>repeat(auto-fit, minmax(250px, 1fr))</code> = responsive grid without media queries</span></li>
+        <li><span class="check-icon">★</span><span><strong>z-index only works on positioned elements</strong> (not static)</span></li>
+        <li><span class="check-icon">★</span><span><strong>CSS Variables:</strong> defined on :root, cascade like properties, updatable via JS</span></li>
+        <li><span class="check-icon">★</span><span><strong>rem vs em:</strong> rem = relative to root; em = relative to parent</span></li>
+      </ul>
+    </div>
+
+    <div class="revision-section">
+      <div class="revision-header">
+        <div class="revision-icon">🟢</div>
+        <div class="revision-title">Git — 5 min</div>
+      </div>
+      <ul class="checklist">
+        <li><span class="check-icon">★</span><span><strong>fetch vs pull:</strong> fetch downloads only; pull = fetch + merge</span></li>
+        <li><span class="check-icon">★</span><span><strong>revert vs reset:</strong> revert creates new undo commit (safe); reset moves HEAD (dangerous on shared branches)</span></li>
+        <li><span class="check-icon">★</span><span><strong>merge vs rebase:</strong> merge preserves history; rebase creates linear history (rewrite!)</span></li>
+        <li><span class="check-icon">★</span><span><strong>Never force-push to main/shared branches</strong> — use <code>--force-with-lease</code> if you must</span></li>
+        <li><span class="check-icon">★</span><span><strong>git reflog</strong> — your safety net. Recover any "lost" commits</span></li>
+      </ul>
+    </div>
+
+    <div class="card-grid">
+      <div class="card must-know">
+        <h4>Output — Know These Results</h4>
+        <pre><code><span class="fn">console</span>.<span class="fn">log</span>(<span class="bool">typeof</span> <span class="bool">null</span>)  <span class="cmt">// "object"</span>
+<span class="fn">console</span>.<span class="fn">log</span>([] + [])    <span class="cmt">// ""</span>
+<span class="fn">console</span>.<span class="fn">log</span>(!![])       <span class="cmt">// true</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="num">0.1</span>+<span class="num">0.2</span>===<span class="num">0.3</span>) <span class="cmt">// false!</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="bool">null</span> || <span class="str">'x'</span>) <span class="cmt">// "x"</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="bool">null</span> ?? <span class="str">'x'</span>) <span class="cmt">// "x"</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="num">0</span> || <span class="str">'x'</span>)    <span class="cmt">// "x"</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="num">0</span> ?? <span class="str">'x'</span>)    <span class="cmt">// 0 (nullish only)</span></code></pre>
+      </div>
+
+      <div class="card must-know">
+        <h4>Git Emergency Cheatsheet</h4>
+        <div class="cmd-group" style="margin:0">
+          <div class="cmd-row"><span class="cmd-code">git add . && git commit -m "msg"</span><span class="cmd-desc">Stage all + commit</span></div>
+          <div class="cmd-row"><span class="cmd-code">git reset --soft HEAD~1</span><span class="cmd-desc">Undo commit, keep staged</span></div>
+          <div class="cmd-row"><span class="cmd-code">git stash && git stash pop</span><span class="cmd-desc">Save + restore work</span></div>
+          <div class="cmd-row"><span class="cmd-code">git log --oneline -10</span><span class="cmd-desc">Last 10 commits quick view</span></div>
+          <div class="cmd-row"><span class="cmd-code">git diff HEAD</span><span class="cmd-desc">All uncommitted changes</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="border-color:rgba(88,166,255,0.3); background: linear-gradient(135deg, var(--surface) 0%, rgba(88,166,255,0.05) 100%)">
+      <h4 style="color:var(--blue)">💬 Interview Mindset Tips</h4>
+      <ul>
+        <li>Always <strong>think out loud</strong> — interviewers value your reasoning process</li>
+        <li>If you don't know, say "I'd approach it like..." or "I'd look at..."</li>
+        <li>For JS output questions: work through it step by step (sync → micro → macro)</li>
+        <li>When asked to "explain X" — give definition, use case, and a quick example</li>
+        <li>BEM / Semantic HTML questions = show you care about maintainability</li>
+        <li>Git questions often care about <strong>team safety</strong> — emphasize what to avoid in shared repos</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- END LAST MINUTE TAB -->
+
+</main>
+</div>
+
+<script src="script.js" defer></script>
+
+</body>
+</html>
