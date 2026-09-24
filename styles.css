@@ -722,3 +722,97 @@
   .pill-css { background: var(--css-dim); color: var(--css); border-color: rgba(168,85,247,0.3); }
   .pill-git { background: var(--git-dim); color: var(--git); border-color: rgba(74,222,128,0.3); }
   .pill-blue { background: var(--blue-dim); color: var(--blue); border-color: rgba(88,166,255,0.3); }
+
+  /* Responsive layout ---------------------------------------------------- */
+  img, svg, video, canvas { max-width: 100%; }
+
+  .layout,
+  main,
+  .card,
+  .qa-block,
+  .revision-section,
+  .diagram { min-width: 0; }
+
+  pre, code, .cmd-code, .promise-diagram {
+    max-width: 100%;
+  }
+
+  @media (max-width: 1200px) {
+    header { padding: 0 16px; }
+    .header-inner { gap: 14px; }
+    .layout { grid-template-columns: 190px minmax(0, 1fr); }
+    main { padding: 28px clamp(20px, 4vw, 32px); }
+    .card-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .cmd-row { grid-template-columns: minmax(180px, 34%) minmax(0, 1fr); }
+  }
+
+  @media (max-width: 900px) {
+    .header-inner {
+      height: auto;
+      min-height: 52px;
+      padding: 8px 0;
+      flex-wrap: wrap;
+    }
+
+    .logo { flex: 0 0 auto; }
+    .nav-tabs {
+      order: 3;
+      flex: 1 1 100%;
+      width: 100%;
+      padding-bottom: 2px;
+    }
+
+    .revision-badge { margin-left: auto; }
+    .layout { display: block; min-height: 0; }
+    aside { display: none; }
+    main { padding: 24px clamp(16px, 4vw, 28px); overflow: visible; }
+    .two-col, .three-col, .card-grid { grid-template-columns: 1fr; }
+    .event-loop-diagram { min-width: 600px; }
+  }
+
+  @media (max-width: 640px) {
+    body { font-size: 13px; }
+    header { padding: 0 12px; }
+    .header-inner { gap: 8px; }
+    .logo { font-size: 12px; }
+    .revision-badge { display: none; }
+    .tab-btn { padding: 6px 10px; font-size: 12px; }
+
+    main { padding: 20px 12px 32px; }
+    .section { margin-bottom: 32px; scroll-margin-top: 92px; }
+    .section-header {
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+    }
+    .section-icon { width: 32px; height: 32px; }
+    .section-title { font-size: 15px; line-height: 1.35; }
+    .section-subtitle { font-size: 11px; line-height: 1.45; }
+
+    .card, .revision-section { padding: 14px; }
+    .card-grid { gap: 10px; margin-bottom: 10px; }
+    .card p, .card li, .qa-a p, .qa-text { font-size: 12.5px; }
+    .qa-q { padding: 11px 12px; gap: 8px; }
+    .qa-a { padding: 12px; }
+    pre { padding: 11px 12px; font-size: 11px; line-height: 1.6; }
+    code { font-size: 11px; }
+
+    .cmd-row { display: block; padding: 8px 0; }
+    .cmd-code { display: block; width: 100%; margin-bottom: 5px; overflow-wrap: anywhere; }
+    .cmd-desc { padding-top: 0; }
+    .table-wrap { margin-left: -2px; margin-right: -2px; }
+    table { min-width: 520px; font-size: 12px; }
+    thead th, tbody td { padding: 8px 10px; }
+    .diagram { padding: 12px; }
+    .event-loop-diagram { min-width: 560px; }
+    .revision-header { align-items: flex-start; }
+    .scenario { padding-left: 10px; }
+  }
+
+  @media (max-width: 380px) {
+    .tab-btn { padding-left: 8px; padding-right: 8px; }
+    .tab-btn .dot { display: none; }
+    .section-title { font-size: 14px; }
+    .pill { font-size: 11px; padding: 3px 8px; }
+  }
